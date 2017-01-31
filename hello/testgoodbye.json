@@ -1,0 +1,39 @@
+{
+    "version": "1.0",
+    "session": {
+	"sessionId": "SessionId.2359871f-62cd-43a1-aff8-3a952468a027",
+	"application": {
+	    "applicationId": "amzn1.ask.skill.cfb7a563-0ffb-4998-9771-c37c7365ec17"
+	},
+	"attributes": {},
+	"user": {
+	    "userId": null
+	},
+	"new": true
+    },
+    "context": {
+	"System": {
+	    "application": {
+		"applicationId": "amzn1.ask.skill.cfb7a563-0ffb-4998-9771-c37c7365ec17"
+	    },
+	    "user": {
+		"userId": null
+	    },
+	    "device": {
+		"supportedInterfaces": {
+		    "AudioPlayer": {}
+		}
+	    }
+	}
+    },
+    "request": {
+	"type": "IntentRequest",
+	"requestId": "testrequest123",
+	"locale": "en-US",
+	"timestamp": "2017-01-29T06:07:08Z",
+	"intent": {
+	    "name": "GoodbyeIntent",
+	    "slots": {}
+	}
+    }
+}

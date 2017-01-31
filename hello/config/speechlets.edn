@@ -1,0 +1,58 @@
+{:speechlets [{:ns hello.speechlet
+               :delegate {:ns hello.speechlet.delegate
+                          :prefix "speechlet-"}
+               :servlet  {:ns hello.speechlet.servlet
+                          :urls ["/hello"]}
+               :logging {:level :all}
+               :skill {:name "HelloMonster"
+                       :language "English"
+                       :cue "Hello Monster" ;; "Invocation name"
+                       :id "amzn1.ask.skill.1366b108-2230-4563-bc35-aef1d6116f98" ;; REQUIRED
+                       :audio-player false
+                       ;; :endpoint - at least one REQUIRED
+                       :endpoint {:https "foo-bar.appspot.com/foobar"
+                                  :lambda {:handler {:ns hello.speechlet.handler}
+                                           ;; :method [handleRequest [String] String]}
+                                           :memory 512
+                                           :timeout 5
+                                           :role "arn:aws:iam::133382873287:role/boot-lambda-basic"}}
+                       :ssl :wildcard ;; :trusted, :x-509
+                       :intents {:Intent/Hello #{"say hello"
+                                                 "say hello world"
+                                                 "hello"
+                                                 "say hi"
+                                                 "say hi world"
+                                                 "hi"
+                                                 "how are you"}
+                                 :Intent/AMAZON.HelpIntent #{}
+                                 }
+                       }
+               }
+
+              {:ns goodbye.speechlet
+               :delegate {:ns goodbye.speechlet.delegate
+                          :prefix "speechlet-"}
+               :servlet  {:ns goodbye.speechlet.servlet
+                          :urls ["/goodbye"]}
+               :logging {:level :all}
+               :skill {:name "GoodbyeMonster"
+                       :language "English"
+                       :cue "Goodbye Monster" ;; "Invocation name"
+                       :id "amzn1.ask.skill.cfb7a563-0ffb-4998-9771-c37c7365ec17"
+                       :audio-player false
+                       :endpoint {:https "foo-bar.appspot.com/foobar"
+                                  :lambda {:handler {:ns goodbye.speechlet.handler}
+                                           :memory 512
+                                           :timeout 5
+                                           :role "arn:aws:iam::133382873287:role/boot-lambda-basic"}}
+                       :ssl :wildcard
+                       :intents {:Intent/Goodbye #{"say goodbye"
+                                                   "say goodbye world"
+                                                   "goodbye"
+                                                   "say bye"
+                                                   "say bye world"
+                                                   "bye"}
+                                 :Intent/AMAZON.HelpIntent #{}
+                                 }
+                       }
+               }]}

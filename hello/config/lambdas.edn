@@ -1,0 +1,8 @@
+{:lambdas [{:name "HelloFunction"
+            :ns hello.speechlet
+            :request-stream-handler true
+            :entry {:method [handleRequest [String] String]}
+            :desc {:text "blah blah"}
+            :memory 512
+            :timeout 5
+            :role "arn:aws:iam::133382873287:role/boot-lambda-basic"}]}
