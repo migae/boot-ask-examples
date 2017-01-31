@@ -5,6 +5,7 @@
                           :urls ["/hello"]}
                :logging {:level :all}
                :skill {:name "HelloMonster"
+                       :ns hello.speechlet
                        :language "English"
                        :cue "Hello Monster" ;; "Invocation name"
                        :id "amzn1.ask.skill.1366b108-2230-4563-bc35-aef1d6116f98" ;; REQUIRED
@@ -36,6 +37,7 @@
                           :urls ["/goodbye"]}
                :logging {:level :all}
                :skill {:name "GoodbyeMonster"
+                       :ns goodbye.speechlet
                        :language "English"
                        :cue "Goodbye Monster" ;; "Invocation name"
                        :id "amzn1.ask.skill.cfb7a563-0ffb-4998-9771-c37c7365ec17"
