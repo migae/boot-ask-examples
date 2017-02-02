@@ -70,6 +70,7 @@
   [k keep bool "keep intermediate .clj and .edn files"
    p prod bool "production build, without reloader"
    s service bool "build a service"
+   u unit-test bool "build for unit testing, otherwise for integration testing"
    v verbose bool "verbose"]
   (let [keep (or keep false)
         verbose (or verbose false)]
@@ -79,16 +80,15 @@
           (ask/security :test (if prod false true) :verbose verbose)
           (ask/speechlets :keep keep :verbose verbose)
           (ask/servlets :keep keep :verbose verbose)
-          (gae/logging :log :log4j :verbose verbose)
-          (gae/config-service)
-          (if prod identity (gae/reloader :keep keep :verbose verbose))
-          ;; (boot/sift :move {#"(.*clj$)" (str classes-dir "/$1")})
-          ;; (boot/sift :move {#"(.*\.class$)" (str classes-dir "/$1")})
-          (gae/build-sift)
+	  (gae/servlets :keep keep :verbose verbose)
+          (gae/logging :jul true :verbose verbose)
+          (if prod identity (gae/reloader :unit-test unit-test :keep keep :verbose verbose))
+          (gae/config-service :unit-test unit-test )
+          (gae/build-sift :unit-test unit-test )
           #_(if servlet
             identity
             (gae/install-service))
           (if prod identity (gae/keep-config))
-          (gae/target :verbose verbose)
+          (target)
           )))
 

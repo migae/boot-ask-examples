@@ -1,3 +1,4 @@
+;; lambda.boot
 (def +project+ 'tmp.alexa/hellolambda)
 (def +version+ "0.1.0-SNAPSHOT")
 
@@ -19,10 +20,11 @@
 
                    [migae/boot-ask "0.1.0-SNAPSHOT" :scope "test"]
                    [migae/alexa-skills-kit "1.2"]
-
-                   ;; [com.amazonaws/aws-lambda-java-core "1.1.0"]
                    ;;[com.amazon.alexa/alexa-skills-kit "1.2" :scope "compile"]
+
                    [com.amazonaws/aws-lambda-java-core "1.0.0" :scope "compile"]
+                   ;; [com.amazonaws/aws-lambda-java-events "1.3.0"]
+                   [com.amazonaws/aws-lambda-java-log4j "1.0.0"]
                    ])
 
 (require '[migae.boot-ask :as ask]
@@ -30,6 +32,8 @@
 
 (task-options!
  ask/deploy-lambda {:project     +project+
+                    :version     +version+}
+ ask/lambda-update {:project     +project+
                     :version     +version+}
  pom  {:project     +project+
        :version     +version+
@@ -57,10 +61,8 @@
   (let [keep (or keep false)
         verbose (or verbose false)]
     (comp (ask/speechlets :keep keep :verbose verbose)
-          ;;(ask/lambdas :keep keep :verbose verbose)
-          (cc)
-          (ask/keep-config)
-          (ask/deploy-lambda)
-          (target)
-          )))
+          (ask/lambdas :keep keep :verbose verbose)
+          ;; (cc)
+          ;;(ask/keep-config)
+          (ask/deploy-lambda))))
 
