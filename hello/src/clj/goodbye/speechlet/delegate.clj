@@ -21,55 +21,44 @@
            [java.util Collections]
            [java.lang IllegalArgumentException RuntimeException])
   (:require [clojure.tools.logging :as log :refer [debug info]] ;; :trace, :warn, :error, :fatal
-            ))
+            [-ask.intent :as intent]))
 
-(def intents
-  {:goodbye {:intent "GoodbyeIntent" :response "Hasta la vista, baby"}
-   :help    {:intent "AMAZON.HelpIntent"}})
+(def speech
+  {:goodbye "GOODBYE, baby"
+   :help    "You can say goodbye to me!"
+   :welcome "Welcome to the Alexa Skills Kit, you can say goodbye"})
 
-;; private SpeechletResponse getWelcomeResponse() {
+(def card
+  {:goodbye "GoodbyeWorld"})
+
 (defn get-welcome-response
   []
-  (let [speechText "Welcome to the Alexa Skills Kit, you can say goodbye"
+  (let [speechText (:welcome speech)
         card (SimpleCard.)
         speech (PlainTextOutputSpeech.)
-        reprompt (Reprompt.)
-
-        ]
-    (.setTitle card "GoodbyeWorld")
+        reprompt (Reprompt.)]
+    (.setTitle card (:goodbye card))
     (.setContent card speechText)
     (.setText speech speechText)
     (.setOutputSpeech reprompt speech)
     (SpeechletResponse/newAskResponse speech, reprompt, card)))
 
-;; /**
-;; * Creates a {@code SpeechletResponse} for the goodbye intent.
-;; *
-;; * @return SpeechletResponse spoken and visual response for the given intent
-;; */
-;; private SpeechletResponse getGoodbyeResponse() {
 (defn get-goodbye-response
   []
-  (let [speechText (-> intents :goodbye :response)
+  (let [speechText (:goodbye speech)
         card (SimpleCard.)
         speech (PlainTextOutputSpeech.)]
-    (.setTitle card "GoodbyeWorld")
+    (.setTitle card (:goodbye card))
     (.setContent card speechText)
     (.setText speech speechText)
     (SpeechletResponse/newTellResponse speech card)))
 
-;; /**
-;; * Creates a {@code SpeechletResponse} for the help intent.
-;; *
-;; * @return SpeechletResponse spoken and visual response for the given intent
-;; */
-;; private SpeechletResponse getHelpResponse() {
 (defn get-help-response []
-  (let [speechText "You can say goodbye to me!"
+  (let [speechText (:help speech)
         card (SimpleCard.)
         speech (PlainTextOutputSpeech.)
         reprompt (Reprompt.)]
-    (.setTitle card "GoodbyeWorld")
+    (.setTitle card (:goodbye card))
     (.setContent card speechText)
     (.setText speech speechText)
     (.setOutputSpeech reprompt speech)
@@ -102,9 +91,9 @@
                     (.getSessionId session)))
   (let [intent (.getIntent request)
         intentName (if (nil? intent) nil (.getName intent))]
-    (if (= (-> intents :goodbye :intent) intentName)
+    (if (= intent/goodbye intentName)
       (get-goodbye-response)
-      (if (= (-> intents :help :intent) intentName)
+      (if (= intent/help intentName)
         (get-help-response)
         (throw (SpeechletException. "Invalid Intent"))))))
 

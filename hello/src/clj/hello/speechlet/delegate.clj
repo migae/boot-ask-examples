@@ -21,55 +21,57 @@
            [java.util Collections]
            [java.lang IllegalArgumentException RuntimeException])
   (:require [clojure.tools.logging :as log :refer [debug info]] ;; :trace, :warn, :error, :fatal
+            [-ask.intent :as intent]
             ))
 
-;; private SpeechletResponse getWelcomeResponse() {
+(def speech
+  {:hello "Why, howdy, there, from GAE"
+   ;;  "Ohayo, gozai masoo, from a Lambda function!"
+   :welcome "Welcome to the Alexa Skills Kit, you can say hello"
+   :help "You can say hello to me!"})
+
+(def card
+  {:hello "HelloWorld"})
+
 (defn get-welcome-response
   []
-  (let [speechText "Welcome to the Alexa Skills Kit, you can say hello"
-        card (SimpleCard.)
-        speech (PlainTextOutputSpeech.)
-        reprompt (Reprompt.)
+  (let [speechText (:welcome speech)
+        a-card (SimpleCard.)
+        a-speech (PlainTextOutputSpeech.)
+        reprompt (Reprompt.)]
+    (.setTitle a-card (:hello card))
+    (.setContent a-card speechText)
+    (.setText a-speech speechText)
+    (.setOutputSpeech reprompt a-speech)
+    (SpeechletResponse/newAskResponse a-speech, reprompt, a-card)))
 
-        ]
-    (.setTitle card "HelloWorld")
-    (.setContent card speechText)
-    (.setText speech speechText)
-    (.setOutputSpeech reprompt speech)
-    (SpeechletResponse/newAskResponse speech, reprompt, card)))
-
-;; /**
-;; * Creates a {@code SpeechletResponse} for the hello intent.
-;; *
-;; * @return SpeechletResponse spoken and visual response for the given intent
-;; */
-;; private SpeechletResponse getHelloResponse() {
 (defn get-hello-response
-  []
-  (let [speechText "Bonjour, world"
-        card (SimpleCard.)
-        speech (PlainTextOutputSpeech.)]
-    (.setTitle card "HelloWorld")
-    (.setContent card speechText)
-    (.setText speech speechText)
-    (SpeechletResponse/newTellResponse speech card)))
+  "Creates a {@code SpeechletResponse} for the hello intent.
 
-;; /**
-;; * Creates a {@code SpeechletResponse} for the help intent.
-;; *
-;; * @return SpeechletResponse spoken and visual response for the given intent
-;; */
-;; private SpeechletResponse getHelpResponse() {
-(defn get-help-response []
-  (let [speechText "You can say hello to me!"
-        card (SimpleCard.)
+  @return SpeechletResponse spoken and visual response for the given intent"
+  []
+  (let [speechText (:hello speech)
+        a-card (SimpleCard.)
+        speech (PlainTextOutputSpeech.)]
+    (.setTitle a-card (:hello card))
+    (.setContent a-card speechText)
+    (.setText speech speechText)
+    (SpeechletResponse/newTellResponse speech a-card)))
+
+(defn get-help-response
+  "Creates a {@code SpeechletResponse} for the help intent.
+
+  @return SpeechletResponse spoken and visual response for the given intent"
+  []
+  (let [speechText (:help speech)
+        a-card (SimpleCard.)
         speech (PlainTextOutputSpeech.)
         reprompt (Reprompt.)]
-    (.setTitle card "HelloWorld")
-    (.setContent card speechText)
+    (.setTitle a-card (:hello card))
+    (.setContent a-card speechText)
     (.setText speech speechText)
     (.setOutputSpeech reprompt speech)
-    (SpeechletResponse/newAskResponse speech, reprompt, card)))
+    (SpeechletResponse/newAskResponse speech, reprompt, a-card)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; com.amazon.speech.speechlet.Speechlet API
@@ -88,7 +90,6 @@
   (log/info (format "onLaunch requestId=%s, sessionId=%s"
                     (.getRequestId request)
                     (.getSessionId session)))
-  (println "onLaunch")
   (get-welcome-response))
 
 (defn speechlet-onIntent
@@ -99,9 +100,9 @@
                     (.getSessionId session)))
   (let [intent (.getIntent request)
         intentName (if (nil? intent) nil (.getName intent))]
-    (if (= "HelloWorldIntent" intentName)
+    (if (= intent/hello intentName)
       (get-hello-response)
-      (if (= "AMAZON.HelpIntent" intentName)
+      (if (= intent/help intentName)
         (get-help-response)
         (throw (SpeechletException. "Invalid Intent"))))))
 
