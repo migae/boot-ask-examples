@@ -65,6 +65,8 @@
   (build :prod true)
   (gae/deploy :build-dir "target"))
 
+;; convenience tasks
+
 (deftask build
   "Configure and build Alexa Skill for GAE"
   [k keep bool "keep intermediate .clj and .edn files"
@@ -72,8 +74,9 @@
    s service bool "build a service"
    u unit-test bool "build for unit testing, otherwise for integration testing"
    v verbose bool "verbose"]
-  (let [keep (or keep false)
-        verbose (or verbose false)]
+  (let [keep true
+        unit-test true
+        verbose true]
     (comp (gae/install-sdk)
           (gae/libs :verbose verbose)
           ;; (gae/appstats :keep keep :verbose verbose)
@@ -92,3 +95,12 @@
           (target)
           )))
 
+(deftask monitor
+  "monitor"
+  [u unit-test bool "build for unit testing, otherwise for integration testing"]
+  (gae/monitor :unit-test true))
+
+(deftask run
+  "Configure and build Alexa Skill for GAE"
+  [u unit-test bool "build for unit testing, otherwise for integration testing"]
+  (gae/run :unit-test true))
