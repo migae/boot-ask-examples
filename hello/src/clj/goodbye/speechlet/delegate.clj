@@ -21,7 +21,7 @@
            [java.util Collections]
            [java.lang IllegalArgumentException RuntimeException])
   (:require [clojure.tools.logging :as log :refer [debug info]] ;; :trace, :warn, :error, :fatal
-            [-ask.intent :as intent]))
+            [goodbye.speechlet.intents :as intent]))
 
 (def speech
   {:goodbye "GOODBYE, baby"
