@@ -1,0 +1,55 @@
+{:speechlets
+ [{:ns spacegeek.speechlet
+   :delegate {:ns spacegeek.speechlet.delegate
+              :prefix "speechlet-"}
+   :servlet  {:ns spacegeek.speechlet.servlet
+              :url {:host "alexa-skills-kit.appspot.com"
+                    :port 443
+                    :path "/spacegeek"}}
+   :log4j {:level "ALL"
+           :ns org.apache.log4j.ConsoleAppender
+           :additivity "false"
+           :encoding "UTF-8"
+           :layout {:ns org.apache.log4j.EnhancedPatternLayout
+                    :pattern "%d{ISO8601}  %c%n%p: %m%n"}}
+   :lambda   {:name "Space-Geek-Example-Skill"
+              :ns spacegeek.speechlet.handler
+              ;; :method [handleRequest [String] String]}
+              :memory 512
+              :timeout 5
+              :arn ""
+              :role ""}
+   :logging  {:level :all}
+   :skill    {:name "SpaceGeek"
+              :language "English"
+              :cue "Spacegeek Monster" ;; "Invocation name"
+              :id ""
+              :audio-player false
+              :ssl :wildcard ;; :trusted, :x-509
+              :intents [{:symbol new-fact
+                         :name "GetNewFactIntent"
+                         :samples #{"a fact"
+                                    "a space fact"
+                                    "tell me a fact"
+                                    "tell me a space fact"
+                                    "give me a fact"
+                                    "give me a space fact"
+                                    "tell me trivia"
+                                    "tell me a space trivia"
+                                    "give me trivia"
+                                    "give me a space trivia"
+                                    "give me some information"
+                                    "give me some space information"
+                                    "tell me something"
+                                    "give me something"}}
+                        {:symbol cancel
+                         :name "AMAZON.CancelIntent"}
+                        {:symbol help
+                         :name "AMAZON.HelpIntent"}
+                        {:symbol stop
+                         :name "AMAZON.StopIntent"}
+                        ]
+              }
+   }
+  ]
+ }
