@@ -1,0 +1,53 @@
+{:speechlets
+ [{:ns session.speechlet
+   :delegate {:ns session.speechlet.delegate
+              :prefix "speechlet-"}
+   :servlet  {:ns session.speechlet.servlet
+              :url {:host "alexa-skills-kit.appspot.com"
+                    :port 443
+                    :path "/"}}
+   :log4j {:level "ALL"
+           :ns org.apache.log4j.ConsoleAppender
+           :additivity "false"
+           :encoding "UTF-8"
+           :layout {:ns org.apache.log4j.EnhancedPatternLayout
+                    :pattern "%d{ISO8601}  %c%n%p: %m%n"}}
+   :lambda   {:name "Space-Geek-Example-Skill"
+              :ns session.speechlet.handler
+              ;; :method [handleRequest [String] String]}
+              :memory 512
+              :timeout 5
+              :arn ""
+              :role ""}
+   :logging  {:level :all}
+   :skill    {:name "Session"
+              :language "English"
+              :cue "session"
+              :id "amzn1.ask.skill.200ceeed-a5a4-4625-99be-9a39c74a67ee"
+              :audio-player false
+              :ssl :wildcard ;; :trusted, :x-509
+              :custom-slots {:name "LIST_OF_COLORS"
+                             :values ["green" "blue" "purple" "red" "orange" "yellow"]}
+              :intents [{:symbol my-color!
+                         :name "MyColorIsIntent"
+                         :slots [{:name "Color" :type "LIST_OF_COLORS"}]
+                         :samples #{"my color is {Color}"
+                                    "my favorite color is {Color}"}}
+                        {:symbol my-color?
+                         :name "WhatsMyColorIntent"
+                         :samples #{"whats my color"
+                                    "what is my color"
+                                    "say my color"
+                                    "tell me my color"
+                                    "whats my favorite color"
+                                    "what is my favorite color"
+                                    "say my favorite color"
+                                    "tell me my favorite color"
+                                    "tell me what my favorite color is"}}
+                         {:symbol help
+                         :name "AMAZON.HelpIntent"}
+                        ]
+              }
+   }
+  ]
+ }

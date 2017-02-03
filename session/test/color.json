@@ -1,0 +1,29 @@
+{
+    "session": {
+	"sessionId": "testsessionId123",
+	"application": {
+	    "applicationId": "amzn1.ask.skill.foo-bar"
+	},
+	"attributes": {},
+	"user": {
+	    "userId": "user123"
+	},
+	"new": true
+    },
+    "request": {
+	"type": "IntentRequest",
+	"requestId": "test.request.id.123",
+	"locale": "en-US",
+	"timestamp": "2017-01-29T06:41:59Z",
+	"intent": {
+	    "name": "MyColorIsIntent",
+	    "slots": {
+		"Color": {
+		    "name": "Color",
+		    "value": "red"
+		}
+	    }
+	}
+    },
+    "version": "1.0"
+}

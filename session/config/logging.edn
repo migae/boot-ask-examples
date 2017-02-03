@@ -1,0 +1,3 @@
+;; java.utils.logging master config file
+{:config-file "WEB-INF/logging.properties"
+ :level "ALL"}
