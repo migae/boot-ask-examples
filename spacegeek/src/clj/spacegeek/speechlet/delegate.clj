@@ -1,6 +1,4 @@
 (ns spacegeek.speechlet.delegate
-  "gen-class :implements com.amazon.speech.speechlet.Speechlet"
-  ;;(:refer-clojure :exclude [read read-string])
   (:import [com.amazon.speech.slu Intent]
            [com.amazon.speech.speechlet
             IntentRequest
@@ -15,8 +13,6 @@
             PlainTextOutputSpeech
             Reprompt
             SimpleCard]
-
-           #_[com.google.appengine.api.datastore EntityNotFoundException]
            [java.io InputStream ByteArrayInputStream]
            [java.util Collections]
            [java.lang IllegalArgumentException RuntimeException])
